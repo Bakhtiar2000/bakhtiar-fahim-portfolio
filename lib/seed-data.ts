@@ -1,0 +1,522 @@
+/**
+ * Source-of-truth content from the resume. Used by `npm run seed` and as the
+ * fallback the public site renders when MongoDB is unreachable (e.g. a build
+ * without database access). Keep facts verbatim; wording is lightly polished.
+ */
+import type {
+  AchievementDTO,
+  CaseStudyDTO,
+  EducationDTO,
+  ExperienceDTO,
+  ProfileDTO,
+  ProjectDTO,
+  SiteSettingsDTO,
+  SkillGroupDTO,
+  SocialLinkDTO,
+  StatDTO,
+} from "./types";
+
+type Seed<T> = Omit<T, "id">;
+
+export const seedProfile: Omit<ProfileDTO, "updatedAt" | "photoFileId"> = {
+  name: "Md Bakhtiar Fahim",
+  title: "Software Engineer · Full Stack Developer",
+  headline: "I build software that *banks run on.*",
+  subHeadline:
+    "Full-stack engineer leading frontend for Sylvia HRMS — an enterprise SaaS platform used by leading banks and multinationals in Bangladesh. Angular & React up front, .NET microservices, CQRS, Kafka and gRPC underneath.",
+  rotatingRoles: ["Full Stack Engineer", "Frontend Lead", ".NET Microservices", "Competitive Programmer"],
+  statusText: "Currently building enterprise HRMS @ Millennium Information Solution Ltd.",
+  openToWork: true,
+  location: "Dhaka, Bangladesh",
+  workPreference: "Open to remote / hybrid",
+  aboutHtml:
+    "<p>I'm a software engineer from Dhaka who likes building things that have to work — the kind of software organizations run their people operations and payroll on. I started on the Angular frontend of Sylvia HRMS as an intern, was promoted to Assistant Software Engineer within three months, and now lead frontend development while growing into .NET microservices, CQRS and event-driven architecture.</p><p>Before that I led a backend team at Softvence Agency, shipping client projects with Node.js, NestJS and PostgreSQL. Competitive programming keeps my problem-solving sharp, and mentoring junior developers keeps me honest about writing code other people can read.</p>",
+  email: "bakhtiarfahim360@gmail.com",
+  phone: "+8801879379797",
+  showPhone: false,
+  softSkills: ["Problem solving", "Presentation", "Teamwork", "Communication", "Fast learning"],
+  topSkills: ["Angular", "React", "TypeScript", ".NET / C#", "CQRS & Microservices", "Kafka & gRPC", "PostgreSQL", "Node.js"],
+  keyAchievements: [
+    "Promoted from intern to Assistant Software Engineer in 3 months",
+    "Leads frontend for an enterprise HRMS used by leading banks",
+    "CGPA 3.86 / 4.00 · Dhaka Divisional Hackathon 2024 finalist",
+  ],
+};
+
+export const seedStats: Seed<StatDTO>[] = [
+  { label: "professional roles in under 2 years", value: "3", prefix: "", suffix: "", order: 0, published: true },
+  { label: "CGPA in CSE", value: "3.86", prefix: "", suffix: "", order: 1, published: true },
+  { label: "SaaS used by leading banks", value: "Enterprise", prefix: "", suffix: "", order: 2, published: true },
+  { label: "Divisional finalist 2024", value: "Hackathon", prefix: "", suffix: "", order: 3, published: true },
+  { label: "shipping production code", value: "1", prefix: "", suffix: "+ yr", order: 4, published: true },
+];
+
+export const seedExperience: Seed<ExperienceDTO>[] = [
+  {
+    company: "Millennium Information Solution Ltd.",
+    role: "Assistant Software Engineer",
+    type: "Full-time",
+    location: "",
+    startDate: "2025-09-01T00:00:00.000Z",
+    endDate: null,
+    isCurrent: true,
+    summary:
+      "Contributes to Sylvia HRMS, a next-generation SaaS enterprise HRMS platform serving leading banks and multinational organizations in Bangladesh.",
+    highlights: [
+      "Leads frontend development of Sylvia HRMS while expanding into backend microservices with .NET, CQRS, Keycloak, PostgreSQL, Kafka, gRPC and ClickHouse.",
+      "Collaborates with clients, DevOps and engineering teams to deliver role-based dashboards, business-critical reports, secure authorization workflows, data migrations and scalable enterprise solutions.",
+      "Mentors junior developers and uses AI-assisted development to ship faster.",
+    ],
+    tech: [
+      "Angular",
+      "PrimeNG",
+      "TypeScript",
+      ".NET",
+      "C#",
+      "CQRS",
+      "Kafka",
+      "gRPC",
+      "Keycloak",
+      "PostgreSQL",
+      "ClickHouse",
+      "Docker",
+    ],
+    promoted: true,
+    order: 0,
+    published: true,
+  },
+  {
+    company: "Millennium Information Solution Ltd.",
+    role: "Intern",
+    type: "Internship",
+    location: "",
+    startDate: "2025-06-01T00:00:00.000Z",
+    endDate: "2025-09-01T00:00:00.000Z",
+    isCurrent: false,
+    summary: "Started the Angular frontend of Sylvia HRMS.",
+    highlights: [
+      "Built modular, reusable and maintainable Employee Management, Payroll and Onboarding workflows.",
+      "Built a centralized filtering framework and responsive interfaces integrated with enterprise backend services.",
+      "Optimized API calls to reduce load time.",
+      "Delivered features on schedule using Agile sprints and a Work Breakdown Structure (WBS).",
+    ],
+    tech: ["Angular", "TypeScript", "PrimeNG", "REST APIs"],
+    promoted: false,
+    order: 1,
+    published: true,
+  },
+  {
+    company: "Softvence Agency",
+    role: "Full Stack Developer",
+    type: "Full-time",
+    location: "",
+    startDate: "2025-01-01T00:00:00.000Z",
+    endDate: "2025-06-01T00:00:00.000Z",
+    isCurrent: false,
+    summary: "Led the backend team to develop and deploy multiple client projects with a focus on performance optimization.",
+    highlights: [
+      "Led the backend team to develop and deploy multiple client projects.",
+      "Focused on performance optimization across client backends.",
+      "Worked closely with frontend developers on UI improvements and API integrations.",
+    ],
+    tech: ["Node.js", "Express.js", "NestJS", "MongoDB", "PostgreSQL", "Prisma", "React", "Next.js"],
+    promoted: false,
+    order: 2,
+    published: true,
+  },
+];
+
+export const seedProjects: Omit<Seed<ProjectDTO>, "coverFileId" | "galleryFileIds">[] = [
+  {
+    slug: "legalmate",
+    title: "Legalmate",
+    pitch: "A lawyer–client communication platform where clients post cases and connect with lawyers after payment.",
+    descriptionHtml:
+      "<p>Legalmate brings clients and lawyers together. Clients post their cases and browse lawyers; lawyers find relevant cases and manage their profiles; contact between the two opens after a payment. An admin console oversees lawyers, clients, cases, reviews and transaction history.</p><p>I led the project for a client, owning the delivery across all three roles.</p>",
+    role: "Project Lead",
+    category: "Client project",
+    features: [
+      { audience: "Clients", items: ["Post cases", "Browse lawyers", "Contact lawyers after payment"] },
+      { audience: "Lawyers", items: ["Find cases", "Connect with clients after payment", "Manage profiles"] },
+      { audience: "Admins", items: ["Manage lawyers, clients, cases and reviews", "Track transaction history"] },
+    ],
+    challenges: [
+      "Three role-based experiences (client, lawyer, admin) in a single React app",
+      "Payment-gated contact flow integrated with SSLCommerz",
+      "Real-time communication with Socket.io",
+    ],
+    tech: ["React.js", "Mongoose", "Axios", "Firebase", "Socket.io", "SSLCommerz", "Bcrypt", "DaisyUI"],
+    liveUrl: "https://REPLACE_ME.example.com",
+    clientRepo: "https://github.com/REPLACE_ME/legalmate-client",
+    serverRepo: "https://github.com/REPLACE_ME/legalmate-server",
+    featured: true,
+    published: true,
+    order: 0,
+  },
+  {
+    slug: "arkham-healthcare",
+    title: "Arkham Healthcare",
+    pitch: "A healthcare management system for appointments, payments, prescriptions and doctor reviews.",
+    descriptionHtml:
+      "<p>Arkham Healthcare covers the full patient journey: patients schedule appointments, pay fees, access prescriptions and review doctors; doctors manage appointments, read patient history and generate prescriptions; admins create doctor accounts and review appointment history and metadata.</p><p>Built as a typed Express + Prisma backend with Zod validation, JWT auth and Cloudinary uploads.</p>",
+    role: "Full-stack developer",
+    category: "Full stack",
+    features: [
+      {
+        audience: "Patients",
+        items: ["Schedule appointments", "Pay fees", "Access prescriptions", "Review doctors", "Manage profile"],
+      },
+      {
+        audience: "Doctors",
+        items: ["Manage appointments", "Access patient medical history", "Generate prescriptions"],
+      },
+      {
+        audience: "Admins",
+        items: ["Create and manage doctor accounts", "View appointment history", "Access metadata"],
+      },
+    ],
+    challenges: [
+      "End-to-end type safety with TypeScript, Prisma and Zod",
+      "Role-based access with JWT across patients, doctors and admins",
+    ],
+    tech: ["Prisma", "Express.js", "TypeScript", "Zod", "Cloudinary", "ts-node-dev", "JWT"],
+    liveUrl: "",
+    clientRepo: "https://github.com/REPLACE_ME/arkham-healthcare-client",
+    serverRepo: "https://github.com/REPLACE_ME/arkham-healthcare-server",
+    featured: true,
+    published: true,
+    order: 1,
+  },
+];
+
+export const seedSkillGroups: Seed<SkillGroupDTO>[] = [
+  {
+    name: "Core Languages",
+    order: 0,
+    published: true,
+    skills: [
+      { name: "JavaScript", icon: "javascript", level: "Daily", aliases: ["JS"] },
+      { name: "TypeScript", icon: "typescript", level: "Daily", aliases: ["TS"] },
+      { name: "C#", icon: "", level: "Production", aliases: ["CSharp"] },
+      { name: "C++", icon: "cplusplus", level: "Production", aliases: [] },
+      { name: "C", icon: "c", level: "Familiar", aliases: [] },
+      { name: "HTML5", icon: "html5", level: "Daily", aliases: ["HTML"] },
+      { name: "CSS3", icon: "css", level: "Daily", aliases: ["CSS"] },
+    ],
+  },
+  {
+    name: "Frontend",
+    order: 1,
+    published: true,
+    skills: [
+      { name: "Angular", icon: "angular", level: "Daily", aliases: [] },
+      { name: "React", icon: "react", level: "Production", aliases: ["React.js", "ReactJS"] },
+      { name: "Next.js", icon: "nextdotjs", level: "Production", aliases: ["Next"] },
+      { name: "PrimeNG", icon: "primeng", level: "Daily", aliases: [] },
+      { name: "Redux", icon: "redux", level: "Production", aliases: [] },
+      { name: "shadcn/ui", icon: "shadcnui", level: "Production", aliases: [] },
+      { name: "Ant Design", icon: "antdesign", level: "Familiar", aliases: [] },
+    ],
+  },
+  {
+    name: "Backend",
+    order: 2,
+    published: true,
+    skills: [
+      { name: "ASP.NET", icon: "dotnet", level: "Production", aliases: [".NET", "dotnet"] },
+      { name: "Node.js", icon: "nodedotjs", level: "Production", aliases: ["Node"] },
+      { name: "Express.js", icon: "express", level: "Production", aliases: ["Express"] },
+      { name: "NestJS", icon: "nestjs", level: "Production", aliases: [] },
+      { name: "Prisma", icon: "prisma", level: "Production", aliases: [] },
+      { name: "Mongoose", icon: "mongoose", level: "Production", aliases: [] },
+    ],
+  },
+  {
+    name: "Architecture & Messaging",
+    order: 3,
+    published: true,
+    skills: [
+      { name: "Microservices", icon: "", level: "Production", aliases: [] },
+      { name: "CQRS", icon: "", level: "Production", aliases: [] },
+      { name: "Apache Kafka", icon: "apachekafka", level: "Production", aliases: ["Kafka"] },
+      { name: "gRPC", icon: "", level: "Production", aliases: [] },
+      { name: "REST APIs", icon: "", level: "Daily", aliases: ["REST"] },
+      { name: "Keycloak", icon: "keycloak", level: "Production", aliases: [] },
+    ],
+  },
+  {
+    name: "Databases",
+    order: 4,
+    published: true,
+    skills: [
+      { name: "PostgreSQL", icon: "postgresql", level: "Production", aliases: ["Postgres"] },
+      { name: "MongoDB", icon: "mongodb", level: "Production", aliases: ["Mongo"] },
+      { name: "ClickHouse", icon: "clickhouse", level: "Production", aliases: [] },
+      { name: "SQL", icon: "", level: "Production", aliases: [] },
+    ],
+  },
+  {
+    name: "DevOps & Tools",
+    order: 5,
+    published: true,
+    skills: [
+      { name: "Docker", icon: "docker", level: "Production", aliases: [] },
+      { name: "GitHub", icon: "github", level: "Daily", aliases: ["Git"] },
+      { name: "Vercel", icon: "vercel", level: "Production", aliases: [] },
+      { name: "Netlify", icon: "netlify", level: "Familiar", aliases: [] },
+      { name: "Render", icon: "render", level: "Familiar", aliases: [] },
+      { name: "Firebase", icon: "firebase", level: "Production", aliases: [] },
+      { name: "Postman", icon: "postman", level: "Daily", aliases: [] },
+      { name: "pgAdmin 4", icon: "", level: "Production", aliases: ["pgAdmin"] },
+      { name: ".NET CLI", icon: "dotnet", level: "Production", aliases: [] },
+      { name: "npm", icon: "npm", level: "Daily", aliases: [] },
+      { name: "Chrome DevTools", icon: "googlechrome", level: "Daily", aliases: [] },
+      { name: "Trello", icon: "trello", level: "Familiar", aliases: [] },
+    ],
+  },
+  {
+    name: "Payments",
+    order: 6,
+    published: true,
+    skills: [
+      { name: "Stripe", icon: "stripe", level: "Familiar", aliases: [] },
+      { name: "SSLCommerz", icon: "", level: "Production", aliases: [] },
+    ],
+  },
+];
+
+export const seedEducation: Seed<EducationDTO>[] = [
+  {
+    degree: "BSc in Computer Science and Engineering",
+    institution: "International University of Business, Agriculture and Technology (IUBAT)",
+    startYear: 2021,
+    endYear: 2025,
+    cgpa: "3.86 / 4.00",
+    notes: "",
+    order: 0,
+    published: true,
+  },
+];
+
+export const seedAchievements: Seed<AchievementDTO>[] = [
+  {
+    title: "Finalist — Dhaka Divisional Hackathon 2024",
+    event: "Technocrats V2",
+    date: "2024-12-01T00:00:00.000Z",
+    description: "Reached the finals of the Dhaka Divisional Hackathon 2024 (Technocrats V2).",
+    link: "",
+    order: 0,
+    published: true,
+  },
+];
+
+export const seedSocials: Seed<SocialLinkDTO>[] = [
+  {
+    platform: "github",
+    label: "GitHub",
+    url: "https://github.com/REPLACE_ME",
+    showInHero: true,
+    showInFooter: true,
+    order: 0,
+    published: true,
+  },
+  {
+    platform: "linkedin",
+    label: "LinkedIn",
+    url: "https://www.linkedin.com/in/REPLACE_ME",
+    showInHero: true,
+    showInFooter: true,
+    order: 1,
+    published: true,
+  },
+  {
+    platform: "codechef",
+    label: "CodeChef",
+    url: "https://www.codechef.com/users/REPLACE_ME",
+    showInHero: true,
+    showInFooter: true,
+    order: 2,
+    published: true,
+  },
+  {
+    platform: "codeforces",
+    label: "Codeforces",
+    url: "https://codeforces.com/profile/REPLACE_ME",
+    showInHero: true,
+    showInFooter: true,
+    order: 3,
+    published: true,
+  },
+  {
+    platform: "email",
+    label: "Email",
+    url: "mailto:bakhtiarfahim360@gmail.com",
+    showInHero: true,
+    showInFooter: true,
+    order: 4,
+    published: true,
+  },
+];
+
+export const seedCaseStudy: Omit<CaseStudyDTO, "mockupFileIds"> = {
+  eyebrow: "Featured case study",
+  title: "Sylvia HRMS — Enterprise HR for banks & multinationals",
+  summary:
+    "A next-generation SaaS HRMS platform serving leading banks and multinational organizations in Bangladesh. Production software where correctness, security and performance are non-negotiable.",
+  product:
+    "A multi-module SaaS HRMS — employee management, payroll, onboarding, reporting and role-based access — used by HR teams at leading banks and multinational organizations in Bangladesh.",
+  myRole:
+    "Joined as an intern and started the Angular frontend; promoted to Assistant Software Engineer in 3 months. Now leading frontend development, expanding into .NET microservices and mentoring junior developers.",
+  shipped:
+    "Modular feature workflows, a centralized filtering framework, role-based dashboards and business-critical reports — plus secure authorization flows and data migrations, delivered with clients, DevOps and engineering teams.",
+  shippedChips: [
+    "Employee Management",
+    "Payroll",
+    "Onboarding workflows",
+    "Centralized filtering framework",
+    "Role-based dashboards",
+    "Business-critical reports",
+    "Secure authorization workflows",
+    "Data migrations",
+    "API-call optimization",
+    "Mentoring juniors",
+    "AI-assisted development",
+  ],
+  architecture: [
+    {
+      key: "spa",
+      label: "Angular SPA",
+      sublabel: "PrimeNG · TypeScript",
+      layer: "Client",
+      description:
+        "Single-page Angular app built with PrimeNG: role-based dashboards, employee management, payroll and onboarding flows.",
+      contribution:
+        "Started the frontend as an intern and now lead it. Built modular feature workflows, a centralized filtering framework and responsive UI, and optimized API calls to cut load time.",
+      x: 11,
+      y: 50,
+      connections: ["gateway", "keycloak"],
+    },
+    {
+      key: "keycloak",
+      label: "Keycloak",
+      sublabel: "OIDC · RBAC",
+      layer: "Identity",
+      description: "Identity provider handling login, tokens and role-based access control.",
+      contribution:
+        "Built secure authorization workflows: route guards, role-aware UI and permission checks tied to Keycloak roles.",
+      x: 36,
+      y: 14,
+      connections: ["gateway"],
+    },
+    {
+      key: "gateway",
+      label: "API Gateway",
+      sublabel: "Routing · auth",
+      layer: "Edge",
+      description: "Single entry point that routes requests to the right microservice and enforces authentication.",
+      contribution: "Integrated the SPA with enterprise backend services through the gateway.",
+      x: 36,
+      y: 50,
+      connections: ["command", "query"],
+    },
+    {
+      key: "command",
+      label: "Command services",
+      sublabel: ".NET · CQRS write side",
+      layer: "Services",
+      description: ".NET microservices that handle writes: validation, business rules and domain events.",
+      contribution: "Expanding into backend development with .NET and C#, following CQRS.",
+      x: 62,
+      y: 24,
+      connections: ["grpc", "kafka", "postgres"],
+    },
+    {
+      key: "grpc",
+      label: "gRPC",
+      sublabel: "Service-to-service",
+      layer: "Services",
+      description: "Typed, low-latency calls between services.",
+      contribution: "Works with gRPC contracts for service-to-service communication.",
+      x: 62,
+      y: 50,
+      connections: ["query"],
+    },
+    {
+      key: "query",
+      label: "Query services",
+      sublabel: ".NET · CQRS read side",
+      layer: "Services",
+      description: "Read-optimized .NET services serving dashboards, lists and reports.",
+      contribution: "Delivers the role-based dashboards and business-critical reports these services power.",
+      x: 62,
+      y: 76,
+      connections: ["clickhouse", "postgres"],
+    },
+    {
+      key: "kafka",
+      label: "Kafka",
+      sublabel: "Event bus",
+      layer: "Messaging",
+      description: "Event bus that propagates domain events between services and keeps read models in sync.",
+      contribution: "Works on event-driven flows between microservices using Kafka.",
+      x: 86,
+      y: 50,
+      connections: ["query"],
+    },
+    {
+      key: "postgres",
+      label: "PostgreSQL",
+      sublabel: "Transactional data",
+      layer: "Data",
+      description: "Primary transactional database for HR, payroll and organization data.",
+      contribution: "Data migrations and schema work for enterprise onboarding.",
+      x: 86,
+      y: 18,
+      connections: [],
+    },
+    {
+      key: "clickhouse",
+      label: "ClickHouse",
+      sublabel: "Analytics",
+      layer: "Data",
+      description: "Columnar analytics store behind heavy reports and dashboards.",
+      contribution: "Business-critical reports backed by ClickHouse.",
+      x: 86,
+      y: 82,
+      connections: [],
+    },
+  ],
+};
+
+export const seedSettings: Omit<SiteSettingsDTO, "ogImageFileId"> = {
+  sections: [
+    { key: "caseStudy", visible: true, teaser: "How I got here — the journey so far" },
+    { key: "experience", visible: true, teaser: "Things I've built outside the day job" },
+    { key: "projects", visible: true, teaser: "The toolbox behind all of it" },
+    { key: "skills", visible: true, teaser: "Sharpened by competitive programming" },
+    { key: "competitive", visible: true, teaser: "The person behind the code" },
+    { key: "about", visible: true, teaser: "Let's build something together" },
+    { key: "contact", visible: true, teaser: "" },
+  ],
+  seoTitle: "Md Bakhtiar Fahim — Software Engineer · Full Stack Developer",
+  seoDescription:
+    "Full-stack engineer leading frontend for an enterprise SaaS HRMS used by leading banks and multinationals in Bangladesh. Angular & React, .NET microservices, CQRS, Kafka and gRPC.",
+  keywords: [
+    "Md Bakhtiar Fahim",
+    "Software Engineer",
+    "Full Stack Developer",
+    "Angular",
+    "React",
+    ".NET",
+    "Microservices",
+    "CQRS",
+    "Kafka",
+    "Dhaka",
+    "Bangladesh",
+  ],
+  footerNote: "Built with Next.js · TypeScript · MongoDB",
+  codeforcesHandle: "",
+  codeforcesFallback: { rating: null, maxRating: null, rank: "", maxRank: "", solved: null },
+  codechefHandle: "",
+  codechefData: { rating: null, highestRating: null, stars: null, solved: null },
+};
